@@ -20,7 +20,7 @@ const order = new Order({
 async function main() {
   await order.init();
   for (let symbol of config.symbols) {
-    run(symbol, df, order);
+    run(symbol, df, order, "live");
   }
 
   order.showResults();

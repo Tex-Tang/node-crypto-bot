@@ -65,6 +65,7 @@ class Order {
           .utc()
           .valueOf();
         this.openTrades[symbol].openRate = trade.openRate;
+        this.openTradesCount++;
       }
 
       let detail = this.exchangeInfo.find((c) => c.symbol == symbol);
@@ -118,7 +119,7 @@ class Order {
       this.balance = math.round(this.balance - totalPrice, 8);
 
       let trade = await TradeModel.query().insert({
-        strategy: this.strategy,
+        strategy: this.name,
         symbol: result.symbol,
         orderId: result.orderId,
         clientOrderId: result.clientOrderId,

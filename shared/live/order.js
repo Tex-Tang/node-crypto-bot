@@ -66,6 +66,7 @@ class Order {
           .valueOf();
         this.openTrades[symbol].openRate = trade.openRate;
         this.openTradesCount++;
+        this.balance -= trade.amount * trade.openRate;
       }
 
       let detail = this.exchangeInfo.find((c) => c.symbol == symbol);

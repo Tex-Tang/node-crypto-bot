@@ -10,7 +10,7 @@ class DataFeed {
     this.file = new FileDB();
   }
 
-  async etCandles(symbol, interval, limit) {
+  async getCandles(symbol, interval, limit) {
     let allCandles = this.file.read(symbol, interval).candles;
     let endIndex = 0;
     for (let i in allCandles) {

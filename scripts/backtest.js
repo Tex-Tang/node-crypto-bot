@@ -10,8 +10,12 @@ const run = require("../strategy/" + s);
 const df = new DataFeed(config);
 const order = new Order(config);
 
-for (let symbol of config.symbols) {
-  run(symbol, df, order);
+async function main() {
+  for (let symbol of config.symbols) {
+    await run(symbol, df, order);
+  }
+
+  df.run().then(() => analyzeTrade(config.symbols, order.trades));
 }
 
-df.run().then(() => analyzeTrade(config.symbols, order.trades));
+main();

@@ -58,7 +58,7 @@ function analyzeTrade(symbols, allTrades) {
     ]);
     sumTotal += trades.length ? total : 0;
   }
-  table.sort((a, b) => a[5] - b[5]);
+  table.sort((a, b) => a[8] - b[8]);
   console.log(table.toString());
   console.log("Trade count: " + allTrades.length);
   console.log("Total: " + sumTotal);

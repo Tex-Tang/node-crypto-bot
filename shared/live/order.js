@@ -201,7 +201,7 @@ class Order {
       head: [
         "Symbol",
         "Open Time",
-        "Amount",
+        "Quantity",
         "Open Rate",
         "Current Rate",
         "Profit (%)",

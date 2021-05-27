@@ -198,7 +198,14 @@ class Order {
 
   showResults() {
     let table = new Table({
-      head: ["Symbol", "Open Time", "Open Rate", "Current Rate", "Profit (%)"],
+      head: [
+        "Symbol",
+        "Open Time",
+        "Amount",
+        "Open Rate",
+        "Current Rate",
+        "Profit (%)",
+      ],
     });
     for (let symbol in this.openTrades) {
       let openTrade = this.openTrades[symbol];
@@ -215,6 +222,7 @@ class Order {
       table.push([
         symbol,
         formatTimeStamp(openTrade.openTime),
+        openTrade.amount,
         openTrade.openRate,
         openTrade.currentRate,
         diff,

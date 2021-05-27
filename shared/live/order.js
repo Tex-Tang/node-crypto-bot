@@ -221,11 +221,11 @@ class Order {
 
       table.push([
         symbol,
-        formatTimeStamp(openTrade.openTime),
+        openTrade.openTime ? formatTimeStamp(openTrade.openTime) : "",
         openTrade.quantity ? openTrade.quantity : 0,
         openTrade.openRate,
         openTrade.currentRate,
-        diff,
+        openTrade.currentRate ? diff : "",
       ]);
     }
     console.log(table.toString());

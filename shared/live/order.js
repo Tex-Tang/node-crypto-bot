@@ -152,7 +152,10 @@ class Order {
         symbol: symbol,
         side: "SELL",
         type: "MARKET",
-        quantity: this.openTrades[symbol].quantity,
+        quantity: math.round(
+          this.openTrades[symbol].quantity,
+          this.openTrades[symbol].stepSize
+        ),
       });
 
       let totalPrice = 0;

@@ -222,7 +222,7 @@ class Order {
       table.push([
         symbol,
         formatTimeStamp(openTrade.openTime),
-        openTrade.quantity,
+        openTrade.quantity ? openTrade.quantity : 0,
         openTrade.openRate,
         openTrade.currentRate,
         diff,

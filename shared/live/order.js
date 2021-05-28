@@ -152,7 +152,7 @@ class Order {
         symbol: symbol,
         side: "SELL",
         type: "MARKET",
-        quantity: math.round(
+        quantity: math.floor(
           this.openTrades[symbol].quantity,
           this.openTrades[symbol].stepSize
         ),

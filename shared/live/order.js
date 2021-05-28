@@ -95,7 +95,7 @@ class Order {
     }
 
     try {
-      let quantity = math.round(
+      let quantity = math.floor(
         this.balance /
           (this.maxAllowedOpenTrades - this.openTradesCount) /
           this.openTrades[symbol].currentRate,

@@ -7,9 +7,9 @@ module.exports = {
   symbols: ["ONGUSDT", "EOSUSDT", "ATMUSDT", "XRPUSDT"],
 
   baseAsset: "USDT",
-  startingBalance: 50,
+  startingBalance: 45,
   maxAllowedOpenTrades: 4,
 
-  startTime: moment("20210515").utc().valueOf(),
-  endTime: moment("20210522").utc().valueOf(),
+  startTime: moment("20210201").utc().valueOf(),
+  endTime: moment("20210524").utc().valueOf(),
 };

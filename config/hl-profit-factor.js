@@ -25,8 +25,8 @@ module.exports = {
   ], //["ONGUSDT", "EOSUSDT", "ATMUSDT", "XRPUSDT"],
 
   baseAsset: "USDT",
-  startingBalance: 55,
-  maxAllowedOpenTrades: 1000,
+  startingBalance: 60,
+  maxAllowedOpenTrades: 5,
 
   startTime: moment("20210201").utc().valueOf(),
   endTime: moment("20210524").utc().valueOf(),

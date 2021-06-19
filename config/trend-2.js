@@ -5,7 +5,7 @@ module.exports = {
   symbols: ["MBLUSDT", "BLZUSDT", "PERPUSDT"],
 
   baseAsset: "USDT",
-  startingBalance: 35,
+  startingBalance: 36,
   maxAllowedOpenTrades: 3,
 
   startTime: moment("20210501").utc().valueOf(),

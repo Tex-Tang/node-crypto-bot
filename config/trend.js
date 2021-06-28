@@ -2,11 +2,11 @@ const moment = require("moment");
 
 module.exports = {
   name: "TrendStrategy",
-  symbols: ["LTCUSDT", "MATICUSDT"],
+  symbols: ["LTCUSDT", "MATICUSDT", "ETHDOWNUSDT"],
 
   baseAsset: "USDT",
-  startingBalance: 24,
-  maxAllowedOpenTrades: 2,
+  startingBalance: 25,
+  maxAllowedOpenTrades: 3,
 
   startTime: moment("20210501").utc().valueOf(),
 };

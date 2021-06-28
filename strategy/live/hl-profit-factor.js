@@ -35,7 +35,7 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
     }
 
     if (openRate) {
-      let profit = (candle.close - openRate) / openRate - 0.002 * 100;
+      let profit = ((candle.close - openRate) / openRate - 0.002) * 100;
       if (profit > tp) {
         order.sell({ symbol, ...candle });
       }

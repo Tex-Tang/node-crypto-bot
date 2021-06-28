@@ -1,5 +1,6 @@
 const math = require("mathjs");
 const moment = require("moment");
+const tulind = require("tulind");
 
 module.exports = async function (symbol, df, order, mode = "backtest") {
   let interval = "5m";
@@ -7,10 +8,17 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
   let threeHoursStopLoss = -0.01;
   let tp = 0.2;
   let candles = await df.getCandles(symbol, interval, 100);
+  let candles1h = await df.getCandles(symbol, "1h", 150);
   df.subscribe(symbol, interval, async (candle) => {
     candles.push(candle);
     candles.shift();
     if (candles.length < 25) return;
+
+    let sma150 = await new Promise((r) => {
+      tulind.indicators.sma.indicator([candles1h.map(({ close }) => close)], [150], (err, results) => {
+        r(results[0][0]);
+      });
+    });
 
     let runningMax = math.max(...candles.slice(candles.length - 22, candles.length - 2).map(({ close }) => close));
     let runningMin = math.min(...candles.slice(candles.length - 22, candles.length - 2).map(({ close }) => close));
@@ -20,13 +28,14 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
     let openRate = order.openTrades[symbol].openRate;
     let openTime = order.openTrades[symbol].openTime;
     if (trigger > 0.8) {
+      // && candle.close > sma150) {
       if (!openRate) {
         order.buy({ symbol, ...candle });
       }
     }
 
     if (openRate) {
-      let profit = (candle.close - openRate) / openRate - 0.002;
+      let profit = (candle.close - openRate) / openRate - 0.002 * 100;
       if (profit > tp) {
         order.sell({ symbol, ...candle });
       }
@@ -54,6 +63,11 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
         order.sell({ symbol, ...candle, close: openRate * (1 + stopLoss) });
       }
     }
+  });
+
+  df.subscribe(symbol, "1h", async (candle) => {
+    candles1h.push(candle);
+    candles1h.shift();
   });
 
   df.subscribe(symbol, "live", async (ticker) => {

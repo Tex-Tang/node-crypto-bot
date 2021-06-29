@@ -5,8 +5,8 @@ module.exports = {
   symbols: ["LTCUSDT", "MATICUSDT", "ETHDOWNUSDT", "ADADOWNUSDT"],
 
   baseAsset: "USDT",
-  startingBalance: 25,
-  maxAllowedOpenTrades: 3,
+  startingBalance: 48,
+  maxAllowedOpenTrades: 4,
 
   startTime: moment("20210501").utc().valueOf(),
 };

@@ -2,7 +2,7 @@ const moment = require("moment");
 
 module.exports = {
   name: "TrendStrategy",
-  symbols: ["LTCUSDT", "MATICUSDT", "ETHDOWNUSDT"],
+  symbols: ["LTCUSDT", "MATICUSDT", "ETHDOWNUSDT", "ADADOWNUSDT"],
 
   baseAsset: "USDT",
   startingBalance: 25,

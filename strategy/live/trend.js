@@ -1,6 +1,7 @@
 const math = require("mathjs");
 const moment = require("moment");
 const tulind = require("tulind");
+const { formatTimeStamp } = require("../../utils/helper");
 
 module.exports = async function (symbol, df, order, mode = "backtest") {
   let interval = "15m";
@@ -77,7 +78,9 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
       candle.close <= ema[ema.length - 1] - kcMin * atr[atr.length - 1];
 
     if (buySignal) order.buy({ symbol, ...candle });
-    if (sellSignal && !buySignal) order.sell({ symbol, ...candle });
+    if (sellSignal && !buySignal) {
+      order.sell({ symbol, ...candle });
+    }
   });
 
   df.subscribe(symbol, "live", async (ticker) => {

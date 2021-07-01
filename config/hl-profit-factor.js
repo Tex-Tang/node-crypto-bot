@@ -21,6 +21,6 @@ module.exports = {
   startingBalance: 60,
   maxAllowedOpenTrades: 5,
 
-  startTime: moment("20210201").utc().valueOf(),
-  endTime: moment("20210524").utc().valueOf(),
+  startTime: moment("20210601").utc().valueOf(),
+  endTime: moment("20210630").utc().valueOf(),
 };

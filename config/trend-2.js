@@ -7,6 +7,7 @@ module.exports = {
   baseAsset: "USDT",
   startingBalance: 36,
   maxAllowedOpenTrades: 3,
+  qtyPerTrade: 12,
 
   startTime: moment("20210501").utc().valueOf(),
   endTime: moment("20210522").utc().valueOf(),

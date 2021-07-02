@@ -15,15 +15,7 @@ class Order {
   balance = 0;
   maxAllowedOpenTrades = 0;
 
-  constructor({
-    log,
-    name,
-    symbols,
-    strategy,
-    baseAsset,
-    startingBalance,
-    maxAllowedOpenTrades,
-  }) {
+  constructor({ log, name, symbols, strategy, baseAsset, startingBalance, maxAllowedOpenTrades, qtyPerTrade }) {
     this.log = log;
     this.name = name;
     this.symbols = symbols;
@@ -31,14 +23,13 @@ class Order {
     this.baseAsset = baseAsset;
     this.balance = startingBalance;
     this.maxAllowedOpenTrades = maxAllowedOpenTrades;
+    this.qtyPerTrade = qtyPerTrade;
   }
 
   async init() {
     await this.updateWallet();
     let result = await client.exchangeInfo();
-    this.exchangeInfo = result.symbols.filter((c) =>
-      this.symbols.includes(c.symbol)
-    );
+    this.exchangeInfo = result.symbols.filter((c) => this.symbols.includes(c.symbol));
 
     let trades = await TradeModel.query()
       .whereIn("symbol", this.symbols)
@@ -61,9 +52,7 @@ class Order {
       if (trade) {
         this.openTrades[symbol].tradeId = trade.id;
         this.openTrades[symbol].quantity = trade.amount;
-        this.openTrades[symbol].openTime = moment(trade.openTime)
-          .utc()
-          .valueOf();
+        this.openTrades[symbol].openTime = moment(trade.openTime).utc().valueOf();
         this.openTrades[symbol].openRate = trade.openRate;
         this.openTradesCount++;
         this.balance -= trade.amount * trade.openRate;
@@ -71,8 +60,7 @@ class Order {
 
       let detail = this.exchangeInfo.find((c) => c.symbol == symbol);
       this.openTrades[symbol].stepSize = -math.log10(
-        detail.filters.find(({ filterType }) => filterType == "LOT_SIZE")
-          .stepSize
+        detail.filters.find(({ filterType }) => filterType == "LOT_SIZE").stepSize
       );
 
       this.openTrades[symbol].minSize = detail.filters.find(
@@ -86,21 +74,16 @@ class Order {
   }
 
   async buy({ symbol }) {
-    if (
-      this.openTrades[symbol].openRate ||
-      this.openTradesCount >= this.maxAllowedOpenTrades
-    ) {
+    if (this.openTrades[symbol].openRate || this.openTradesCount >= this.maxAllowedOpenTrades) {
       this.log(`[${symbol}] Buy failed `);
       return;
     }
 
     try {
-      let quantity = math.floor(
-        this.balance /
-          (this.maxAllowedOpenTrades - this.openTradesCount) /
-          this.openTrades[symbol].currentRate,
+      let quantity = this.qtyPerTrade; /*math.floor(
+        this.balance / (this.maxAllowedOpenTrades - this.openTradesCount) / this.openTrades[symbol].currentRate,
         this.openTrades[symbol].stepSize
-      );
+      );*/
 
       let result = await client.order({
         symbol: symbol,
@@ -152,10 +135,7 @@ class Order {
         symbol: symbol,
         side: "SELL",
         type: "MARKET",
-        quantity: math.floor(
-          this.openTrades[symbol].quantity,
-          this.openTrades[symbol].stepSize
-        ),
+        quantity: math.floor(this.openTrades[symbol].quantity, this.openTrades[symbol].stepSize),
       });
 
       let totalPrice = 0;
@@ -198,25 +178,13 @@ class Order {
 
   showResults() {
     let table = new Table({
-      head: [
-        "Symbol",
-        "Open Time",
-        "Quantity",
-        "Open Rate",
-        "Current Rate",
-        "Profit (%)",
-      ],
+      head: ["Symbol", "Open Time", "Quantity", "Open Rate", "Current Rate", "Profit (%)"],
     });
     for (let symbol in this.openTrades) {
       let openTrade = this.openTrades[symbol];
       let diff = 0;
       if (openTrade.openRate) {
-        diff = math.round(
-          ((openTrade.currentRate - openTrade.openRate) / openTrade.openRate) *
-            100 -
-            0.2,
-          2
-        );
+        diff = math.round(((openTrade.currentRate - openTrade.openRate) / openTrade.openRate) * 100 - 0.2, 2);
       }
 
       table.push([

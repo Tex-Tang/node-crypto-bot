@@ -21,7 +21,7 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
 
     let openRate = order.openTrades[symbol].openRate;
     if (trigger > 0.8 && !openRate) {
-      order.buy({ symbol, ...candle });
+      await order.buy({ symbol, ...candle });
       openRate = order.openTrades[symbol].openRate;
       stopLoss = openRate * (1 - 1 / 100);
       takingProfit = openRate * (1 + 2 / 100);
@@ -29,17 +29,17 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
 
     if (openRate) {
       if (candle.close > takingProfit) {
-        order.sell({ symbol, ...candle });
+        await order.sell({ symbol, ...candle });
       }
 
       if (candle.close < stopLoss) {
-        order.sell({ symbol, ...candle, close: stopLoss });
+        await order.sell({ symbol, ...candle, close: stopLoss });
       }
     }
 
     if (mode == "backtest") {
       if (candle.low < stopLoss) {
-        order.sell({ symbol, ...candle, close: stopLoss });
+        await order.sell({ symbol, ...candle, close: stopLoss });
       }
     }
   });
@@ -47,7 +47,7 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
   df.subscribe(symbol, "live", async (ticker) => {
     if (order.openTrades[symbol].openRate) {
       if (stopLoss < order.openTrades[symbol].openRate) {
-        order.sell({
+        await order.sell({
           symbol,
           closeTime: ticker.closeTime,
           close: ticker.bestBid,

@@ -46,7 +46,7 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
 
   df.subscribe(symbol, "live", async (ticker) => {
     if (order.openTrades[symbol].openRate) {
-      if (stopLoss < order.openTrades[symbol].openRate) {
+      if (stopLoss > order.openTrades[symbol].openRate) {
         await order.sell({
           symbol,
           closeTime: ticker.closeTime,

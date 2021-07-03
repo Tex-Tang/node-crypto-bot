@@ -80,10 +80,10 @@ class Order {
     }
 
     try {
-      let quantity = this.qtyPerTrade; /*math.floor(
-        this.balance / (this.maxAllowedOpenTrades - this.openTradesCount) / this.openTrades[symbol].currentRate,
+      let quantity = math.floor(
+        this.qtyPerTrade / this.openTrades[symbol].currentRate,
         this.openTrades[symbol].stepSize
-      );*/
+      );
 
       let result = await client.order({
         symbol: symbol,

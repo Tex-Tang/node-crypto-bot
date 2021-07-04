@@ -1,6 +1,7 @@
 const math = require("mathjs");
 const moment = require("moment");
 const tulind = require("tulind");
+const { formatTimeStamp } = require("../../utils/helper");
 
 module.exports = async function (symbol, df, order, mode = "backtest") {
   let interval = "5m";
@@ -14,8 +15,8 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
     candles.shift();
     if (candles.length < 25) return;
 
-    let runningMax = math.max(...candles.slice(candles.length - 22, candles.length - 2).map(({ close }) => close));
-    let runningMin = math.min(...candles.slice(candles.length - 22, candles.length - 2).map(({ close }) => close));
+    let runningMax = math.max(...candles.slice(candles.length - 22, candles.length - 1).map(({ close }) => close));
+    let runningMin = math.min(...candles.slice(candles.length - 22, candles.length - 1).map(({ close }) => close));
 
     let trigger = (candle.close - candle.open) / (runningMax - runningMin);
 

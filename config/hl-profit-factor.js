@@ -5,16 +5,17 @@ symbols = symbols.filter((s) => !s.includes("UP") && !s.includes("DOWN"));
 module.exports = {
   name: "HL",
   symbols: [
-    "ETHUSDT",
-    "BNBUSDT",
-    "LTCUSDT",
-    "SOLUSDT",
-    "MATICUSDT",
     "SHIBUSDT",
-    "DATAUSDT",
+    "BNBUSDT",
+    "DOCKUSDT",
     "WINUSDT",
-    "REEFUSDT",
+    "KAVAUSDT",
     "CHZUSDT",
+    "REEFUSDT",
+    "DATAUSDT",
+    "ETHUSDT",
+    "SXPUSDT",
+    "HIVEUSDT",
   ],
 
   baseAsset: "USDT",
@@ -23,5 +24,4 @@ module.exports = {
   qtyPerTrade: 12,
 
   startTime: moment("20210601").utc().valueOf(),
-  endTime: moment("20210630").utc().valueOf(),
 };

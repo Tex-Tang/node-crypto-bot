@@ -19,9 +19,9 @@ module.exports = {
   ],
 
   baseAsset: "USDT",
-  startingBalance: 60,
-  maxAllowedOpenTrades: 5,
+  startingBalance: 72,
+  maxAllowedOpenTrades: 6,
   qtyPerTrade: 12,
 
-  startTime: moment("20210601").utc().valueOf(),
+  startTime: moment("20210701").utc().valueOf(),
 };

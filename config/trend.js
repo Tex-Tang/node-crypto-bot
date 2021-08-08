@@ -4,7 +4,7 @@ symbols = symbols.filter((s) => !s.includes("UP") && !s.includes("DOWN"));
 
 module.exports = {
   name: "TrendStrategy",
-  symbols: symbols.length,
+  symbols: symbols,
 
   baseAsset: "USDT",
   startingBalance: 120,

@@ -17,16 +17,17 @@ module.exports = async function (symbol, df, order, mode = "backtest") {
 
   let candles = await df.getCandles(symbol, interval, 100);
 
-  let canAction = true;
-  let candles1d = await df.getCandles(symbol, "1d", 31);
+  let canAction = false;
+  let candles1d = await df.getCandles(symbol, "1d", 35);
   df.subscribe(symbol, "1d", async (candle) => {
     candles1d.push(candle);
-    candles1d.shift();
 
-    if (candles1d.length > 31) {
+    if (candles1d.length < 31) {
       canAction = false;
       return;
     }
+    candles1d.shift();
+
     const trueRange = () => {
       let tr = [0];
       for (let i = 1; i < candles1d.length; i++) {
